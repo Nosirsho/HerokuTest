@@ -1,12 +1,25 @@
-var builder = WebApplication.CreateBuilder(args);
+using HerokuTest.Commands;
+using HerokuTest.Services;
+using Newtonsoft.Json;
+using Telegram.Bot.Types;
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var config = builder.Configuration;
+
+
+services.AddSingleton<TelegramBot>();
+services.AddSingleton<ICommandExecutor, CommandExecutor>();
+services.AddSingleton<BaseCommand, StartCommand>();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+
+
 
 var app = builder.Build();
 
+var serviceProvider =  app.Services;
+serviceProvider.GetRequiredService<TelegramBot>().GetBot().Wait();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -35,6 +48,37 @@ app.MapGet("/weatherforecast", () =>
     })
     .WithName("GetWeatherForecast")
     .WithOpenApi();
+app.MapPost("/api/message/update", async (HttpRequest request, ICommandExecutor commandExecutor) =>
+{
+    using var reader = new StreamReader(request.Body);
+    var body = await reader.ReadToEndAsync();
+
+    Update? update;
+
+    try
+    {
+        update = JsonConvert.DeserializeObject<Update>(body);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Ошибка JSON: {ex.Message}");
+        return Results.BadRequest();
+    }
+
+    if (update != null)
+    {
+        try
+        {
+            await commandExecutor.Execute(update);
+        }
+        catch (Exception e)
+        {
+            return Results.Ok();
+        }
+    }
+
+    return Results.Ok();
+});
 
 app.Run();
 
