@@ -6,34 +6,39 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace HerokuTest.Commands;
 
-public class StartCommand : BaseCommand
+public class AdminCommand : BaseCommand
 {
     private readonly IUserService _userService;
     private readonly TelegramBotClient _botClient;
 
-    public StartCommand(TelegramBot telegramBot, IUserService userService)
+    public AdminCommand(TelegramBot telegramBot, IUserService userService)
     {
         _userService = userService;
         _botClient = telegramBot.GetBot().Result;
     }
 
-    public override string Name => CommandNames.StartCommand;
+    public override string Name => CommandNames.AdminCommand;
 
     public override async Task ExecuteAsync(Update update)
     {
         var user = await _userService.GetOrCreate(update);
+        if (!user.IsAdmin)
+        {
+            await _botClient.SendTextMessageAsync(user.ChatId, "Error: You are not an admin!");
+            return;
+        }
+
         var inlineKeyboard = new ReplyKeyboardMarkup(new[]
         {
-            new KeyboardButton[] { new KeyboardButton("Расценки и сроки доставки"), new KeyboardButton("Запрещенные товары") },
-            new KeyboardButton[] { new KeyboardButton("Программы для установки"), new KeyboardButton("Контакты") },
-            new KeyboardButton[] { new KeyboardButton("Поиск по трек-коду") },
+            new KeyboardButton[] { new KeyboardButton("Добавление трек-кода") },
+            new KeyboardButton[] { new KeyboardButton("Доб. полученные трек-коды") },
             new KeyboardButton[] { new KeyboardButton("Кнопка 1"), new KeyboardButton("Кнопка 2"), new KeyboardButton("Кнопка 3") }
         })
         {
             ResizeKeyboard = true
         };
 
-        await _botClient.SendTextMessageAsync(user.ChatId, "Добро пожаловать! Для получение информации выберите интересующий вас пункт меню!",
+        await _botClient.SendTextMessageAsync(user.ChatId, "Выберите интересующий вас пункт меню!",
             replyMarkup:inlineKeyboard);
     }
 }

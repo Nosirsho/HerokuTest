@@ -1,16 +1,34 @@
+using HerokuTest;
 using HerokuTest.Commands;
 using HerokuTest.Services;
 using Newtonsoft.Json;
 using Telegram.Bot.Types;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var config = builder.Configuration;
 
+services.AddDbContext<DataContext>(options => options.UseSqlite(config.GetConnectionString("DefaultConnection")));
 
 services.AddSingleton<TelegramBot>();
-services.AddSingleton<ICommandExecutor, CommandExecutor>();
-services.AddSingleton<BaseCommand, StartCommand>();
+services.AddScoped<ICommandExecutor, CommandExecutor>();
+services.AddScoped<IUserService, UserService>();
+services.AddScoped<ITrackingService, TrackingService>();
+services.AddScoped<BaseCommand, StartCommand>();
+services.AddScoped<BaseCommand, AdminCommand>();
+services.AddScoped<BaseCommand, AddTrackingCodeCommand>();
+services.AddScoped<BaseCommand, AddFileProcessCommand>();
+services.AddScoped<BaseCommand, GetContactsCommand>();
+services.AddScoped<BaseCommand, GetProhibitedGoodsCommand>();
+services.AddScoped<BaseCommand, GetPriceDeliveryCommand>();
+services.AddScoped<BaseCommand, GetMarketAppsCommand>();
+services.AddScoped<BaseCommand, GetTrackingCodeCommand>();
+services.AddScoped<BaseCommand, FindByTrackingCodeCommand>();
+services.AddScoped<BaseCommand, AddReceivedTrackingCodeCommand>();
+services.AddScoped<BaseCommand, AddReceivedFileProcessCommand>();
+
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
