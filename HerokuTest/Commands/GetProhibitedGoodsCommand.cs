@@ -14,7 +14,8 @@ public class GetProhibitedGoodsCommand : BaseCommand
     public override string Name => CommandNames.GetProhibitedGoodsCommand;
     public override async Task ExecuteAsync(Update update)
     {
-        using (var stream = System.IO.File.OpenRead("./Images/Prohibited_goods.jpg"))
+        var path = Path.Combine(AppContext.BaseDirectory, "Images", "Prohibited_goods.jpg");
+        using (var stream = System.IO.File.OpenRead(path))
         {
             await _botClient.SendPhotoAsync(
                 chatId: update.Message.Chat.Id,
