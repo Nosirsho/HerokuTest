@@ -35,6 +35,22 @@ services.AddSwaggerGen();
 
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+    try
+    {
+        Console.WriteLine("🚀 Применение миграций к базе данных...");
+        db.Database.Migrate();
+        Console.WriteLine("✅ Миграции успешно применены.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Ошибка при применении миграций: {ex.Message}");
+    }
+}
+
 
 var serviceProvider =  app.Services;
 serviceProvider.GetRequiredService<TelegramBot>().GetBot().Wait();

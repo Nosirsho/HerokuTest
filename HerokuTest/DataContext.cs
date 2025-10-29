@@ -16,11 +16,7 @@ public class DataContext: DbContext, IDataContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Однократное заполнение таблицы YourEntities
-        modelBuilder.Entity<AppUser>().HasData(
-            new AppUser { Id = 1, Username = "Nx1ze", IsAdmin = true },
-            new AppUser { Id = 2, Username = "chudotovartajikistan", IsAdmin = true }
-        );
+        var createdAt = new DateTime(2024, 01, 01, 0, 0, 0, DateTimeKind.Utc);
     }
 
 }

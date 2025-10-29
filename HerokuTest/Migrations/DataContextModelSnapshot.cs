@@ -52,32 +52,6 @@ namespace HerokuTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            ChatId = 0L,
-                            CreatedAt = new DateTime(2025, 10, 28, 10, 1, 5, 571, DateTimeKind.Utc).AddTicks(684),
-                            FirstName = "",
-                            IsAdmin = true,
-                            LastCommand = "",
-                            LastName = "",
-                            PhoneNumber = "",
-                            Username = "Nx1ze"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            ChatId = 0L,
-                            CreatedAt = new DateTime(2025, 10, 28, 10, 1, 5, 571, DateTimeKind.Utc).AddTicks(1517),
-                            FirstName = "",
-                            IsAdmin = true,
-                            LastCommand = "",
-                            LastName = "",
-                            PhoneNumber = "",
-                            Username = "chudotovartajikistan"
-                        });
                 });
 
             modelBuilder.Entity("HerokuTest.Entities.Tracking", b =>
