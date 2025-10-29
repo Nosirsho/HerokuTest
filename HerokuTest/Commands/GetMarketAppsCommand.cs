@@ -1,6 +1,7 @@
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using File = System.IO.File;
 
 namespace HerokuTest.Commands;
 
@@ -14,11 +15,19 @@ public class GetMarketAppsCommand : BaseCommand
     public override string Name => CommandNames.GetMarketAppsCommand;
     public override async Task ExecuteAsync(Update update)
     {
-        using (var stream = System.IO.File.OpenRead("./Images/MarketApps.jpg"))
+        var imagePath = Path.Combine(AppContext.BaseDirectory, "Images", "MarketApps.jpg");
+
+        if (!File.Exists(imagePath))
+        {
+            Console.WriteLine($"❌ Файл не найден: {imagePath}");
+            return;
+        }
+
+        using (var stream = File.OpenRead(imagePath))
         {
             await _botClient.SendPhotoAsync(
                 chatId: update.Message.Chat.Id,
-                photo: new InputFileStream(stream, System.IO.Path.GetFileName("./Images/MarketApps.jpg")),
+                photo: new InputFileStream(stream, Path.GetFileName(imagePath)),
                 caption: "Китайские маркетплейсы.\n\n" +
                          "<b>Pinduoduo</b> – <a href=\"https://pinduoduo.ru.malavida.com/android/download\">Android</a> | " +
                          "<a href=\"https://t.me/+6wmOpxRodI5kZDIy\">iOS</a>\n" +
@@ -37,6 +46,5 @@ public class GetMarketAppsCommand : BaseCommand
                 parseMode: Telegram.Bot.Types.Enums.ParseMode.Html
             );
         }
-
     }
 }
