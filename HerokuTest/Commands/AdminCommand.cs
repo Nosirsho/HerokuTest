@@ -32,7 +32,7 @@ public class AdminCommand : BaseCommand
         {
             new KeyboardButton[] { new KeyboardButton("Добавление трек-кода") },
             new KeyboardButton[] { new KeyboardButton("Доб. полученные трек-коды") },
-            new KeyboardButton[] { new KeyboardButton("Кнопка 1"), new KeyboardButton("Кнопка 2"), new KeyboardButton("Кнопка 3") }
+            new KeyboardButton[] { new KeyboardButton("Доб. админ") },
         })
         {
             ResizeKeyboard = true

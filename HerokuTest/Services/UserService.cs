@@ -43,11 +43,31 @@ public class UserService: IUserService
         return result.Entity;
     }
 
+    public async Task<AppUser?> GetUserByUsername(string username)
+    {
+        var appUser = await _context.Users.Where(x => x.Username == username).FirstOrDefaultAsync();
+        return appUser;
+    }
+
     public async Task<AppUser> SetUserLastCommand(AppUser appUser, string command)
     {
         var user = await _context.Users.Where(x => x.ChatId == appUser.ChatId).FirstOrDefaultAsync();
         user!.LastCommand = command;
         await _context.SaveChangesAsync();
+        return user;
+    }
+
+    public async Task<AppUser> AddAdmin(AppUser appUser)
+    {
+        var user = await _context.Users.Where(x => x.ChatId == appUser.ChatId).FirstOrDefaultAsync();
+        user!.IsAdmin = true;
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
+    public async Task<AppUser?> HasAdmin()
+    {
+        var user = await _context.Users.Where(u=>u.IsAdmin).FirstOrDefaultAsync();
         return user;
     }
 }

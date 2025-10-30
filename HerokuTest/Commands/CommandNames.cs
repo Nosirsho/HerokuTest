@@ -4,6 +4,9 @@ public class CommandNames
 {
     public const string StartCommand = "/start";
     public const string AdminCommand = "/admin";
+    public const string AddAdminCommand = "add-admin";
+    public const string AddFirstAdminCommand = "/add-first-admin";
+    public const string AddAdminExecuteCommand = "add-admin-execute";
     public const string AddOperationCommand = "add-operation";
     public const string FinishOperationCommand = "finish-operation";
     public const string SelectCategoryCommand = "select-category";

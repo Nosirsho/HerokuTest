@@ -52,6 +52,9 @@ namespace HerokuTest.Services
                     case "Доб. полученные трек-коды":
                         await ExecuteCommand(CommandNames.AddReceivedTrackingCodeCommand, update, appUser);
                         return;
+                    case "Доб. админ":
+                        await ExecuteCommand(CommandNames.AddAdminCommand, update, appUser);
+                        return;
                 }
             }
 
@@ -72,6 +75,11 @@ namespace HerokuTest.Services
             if (update.Message != null && update.Message.Text != null && update.Message.Text.Contains(CommandNames.AdminCommand))
             {
                 await ExecuteCommand(CommandNames.AdminCommand, update, appUser);
+                return;
+            }
+            if (update.Message != null && update.Message.Text != null && update.Message.Text.Contains(CommandNames.AddFirstAdminCommand))
+            {
+                await ExecuteCommand(CommandNames.AddFirstAdminCommand, update, appUser);
                 return;
             }
 
@@ -103,9 +111,9 @@ namespace HerokuTest.Services
                     await ExecuteCommand(CommandNames.AddReceivedFileProcessCommand, update, appUser);
                     break;
                 }
-                case CommandNames.FindByTrackingCodeCommand:
+                case CommandNames.AddAdminCommand:
                 {
-                    await ExecuteCommand(CommandNames.FindByTrackingCodeCommand, update, appUser);
+                    await ExecuteCommand(CommandNames.AddAdminExecuteCommand, update, appUser);
                     break;
                 }
                 case null:

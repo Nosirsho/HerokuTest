@@ -26,8 +26,7 @@ public class StartCommand : BaseCommand
         {
             new KeyboardButton[] { new KeyboardButton("Расценки и сроки доставки"), new KeyboardButton("Запрещенные товары") },
             new KeyboardButton[] { new KeyboardButton("Программы для установки"), new KeyboardButton("Контакты") },
-            new KeyboardButton[] { new KeyboardButton("Поиск по трек-коду") },
-            new KeyboardButton[] { new KeyboardButton("Кнопка 1"), new KeyboardButton("Кнопка 2"), new KeyboardButton("Кнопка 3") }
+            new KeyboardButton[] { new KeyboardButton("Поиск по трек-коду") }
         })
         {
             ResizeKeyboard = true

@@ -18,6 +18,9 @@ services.AddScoped<IUserService, UserService>();
 services.AddScoped<ITrackingService, TrackingService>();
 services.AddScoped<BaseCommand, StartCommand>();
 services.AddScoped<BaseCommand, AdminCommand>();
+services.AddScoped<BaseCommand, AddAdminCommand>();
+services.AddScoped<BaseCommand, AddAdminExecuteCommand>();
+services.AddScoped<BaseCommand, AddFirstAdminCommand>();
 services.AddScoped<BaseCommand, AddTrackingCodeCommand>();
 services.AddScoped<BaseCommand, AddFileProcessCommand>();
 services.AddScoped<BaseCommand, GetContactsCommand>();
@@ -67,7 +70,7 @@ var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
-app.MapGet("/", () => "Hello World_0001!");
+app.MapGet("/", () => "Hello World_0002!");
 app.MapGet("/weatherforecast", () =>
     {
         var forecast = Enumerable.Range(1, 5).Select(index =>
