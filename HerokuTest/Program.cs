@@ -31,6 +31,9 @@ services.AddScoped<BaseCommand, GetTrackingCodeCommand>();
 services.AddScoped<BaseCommand, FindByTrackingCodeCommand>();
 services.AddScoped<BaseCommand, AddReceivedTrackingCodeCommand>();
 services.AddScoped<BaseCommand, AddReceivedFileProcessCommand>();
+services.AddScoped<BaseCommand, GetGenerateAddressCommand>();
+services.AddScoped<BaseCommand, AddAddressNameCommand>();
+services.AddScoped<BaseCommand, AddAddressNumberCommand>();
 
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
@@ -66,25 +69,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-app.MapGet("/", () => "Hello World_0002!");
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
+
+app.MapGet("/", () => "Hello World_0003!");
 app.MapPost("/api/message/update", async (HttpRequest request, ICommandExecutor commandExecutor) =>
 {
     using var reader = new StreamReader(request.Body);

@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -13,10 +14,9 @@ public class GetPriceDeliveryCommand : BaseCommand
         _botClient = telegramBot.GetBot().Result;
     }
     public override string Name => CommandNames.GetPriceDeliveryCommand;
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
-        const string message = "Ассалом алейкум \n\n" +
-                               "НАШИ ЦЕНЫ:\n"+
+        const string message = "НАШИ ЦЕНЫ:\n"+
                                "1 кг - 2.6$ с бесплатной доставкой до дома \n"+
                                "(ХУДЖАНД-ГАФУРОВ-БУСТОН)\n"+
                                "1 кг - 2.5$ самовывоз со склада на рынке Атуш \n\n"+

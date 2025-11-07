@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -13,16 +14,12 @@ public class GetContactsCommand : BaseCommand
         _botClient = telegramBot.GetBot().Result;
     }
     public override string Name => CommandNames.GetContactsCommand;
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
         const string message = "Наш адрес в Худжанде \nТрасса Худжанд-Гафуров \nРынок Атуш\n" +
                                "Контакты: \n" +
                                "Телефон - (+992) 11 900 13 10 \n" +
-                               "Instagram - @chudo.tovar.tajikistan \n" +
-                               "\u23ec АДРЕС СКЛАДА В КИТАЕ \u23ec \n" +
-                               "ArzonCargo-tj\n19972639805\n\n" +
-                               "浙江省义乌市福田街道 湖塘通福5区 21栋3单元123仓库(A192KZ)\n" +
-                               "Имя + номер телефона";
+                               "Instagram - @chudo.tovar.tajikistan \n";
         await _botClient.SendTextMessageAsync(update.Message.Chat.Id, message,null, ParseMode.Markdown);
     }
 }

@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -13,7 +14,7 @@ public class GetMarketAppsCommand : BaseCommand
         _botClient = telegramBot.GetBot().Result;
     }
     public override string Name => CommandNames.GetMarketAppsCommand;
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
         var imagePath = Path.Combine(AppContext.BaseDirectory, "Images", "MarketApps.jpg");
 

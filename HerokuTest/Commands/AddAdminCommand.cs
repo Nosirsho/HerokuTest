@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -15,7 +16,7 @@ public class AddAdminCommand: BaseCommand
         _botClient = telegramBot.GetBot().Result;
     }
     public override string Name => CommandNames.AddAdminCommand;
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
         var user = await _userService.GetOrCreate(update);
         if (!user.IsAdmin)

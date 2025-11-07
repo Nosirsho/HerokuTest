@@ -55,14 +55,17 @@ namespace HerokuTest.Services
                     case "Доб. админ":
                         await ExecuteCommand(CommandNames.AddAdminCommand, update, appUser);
                         return;
+                    case "Получить адресс":
+                        await ExecuteCommand(CommandNames.GetGenerateAddressCommand, update, appUser);
+                        return;
                 }
             }
 
             if (update.Type == UpdateType.CallbackQuery)
             {
-                if (update.CallbackQuery.Data.Contains("analytic"))
+                if (update.CallbackQuery.Data.Contains("next"))
                 {
-                    await ExecuteCommand(CommandNames.GetAnalyticsCommand, update, appUser);
+                    await ExecuteCommand(CommandNames.AddAddressNameCommand, update, appUser);
                     return;
                 }
             }
@@ -111,9 +114,23 @@ namespace HerokuTest.Services
                     await ExecuteCommand(CommandNames.AddReceivedFileProcessCommand, update, appUser);
                     break;
                 }
-                case CommandNames.AddAdminCommand:
-                {
+                case CommandNames.AddAdminCommand: {
                     await ExecuteCommand(CommandNames.AddAdminExecuteCommand, update, appUser);
+                    break;
+                }
+                case CommandNames.GetGenerateAddressCommand:
+                {
+                    await ExecuteCommand(CommandNames.AddAddressNameCommand, update, appUser);
+                    break;
+                }
+                case CommandNames.AddAddressNameCommand:
+                {
+                    await ExecuteCommand(CommandNames.AddAddressNumberCommand, update, appUser);
+                    break;
+                }
+                case CommandNames.AddAddressNumberCommand:
+                {
+                    await ExecuteCommand(CommandNames.GetGenerateAddressCommand, update, appUser);
                     break;
                 }
                 case null:
@@ -128,7 +145,7 @@ namespace HerokuTest.Services
         {
             var user = await _userService.SetUserLastCommand(appUser, commandName);
             _lastCommand = _commands.First(x => x.Name == user.LastCommand);
-            await _lastCommand.ExecuteAsync(update);
+            await _lastCommand.ExecuteAsync(update, appUser);
         }
     }
 }

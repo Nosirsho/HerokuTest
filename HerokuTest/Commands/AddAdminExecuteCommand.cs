@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -15,20 +16,20 @@ public class AddAdminExecuteCommand: BaseCommand
         _botClient = telegramBot.GetBot().Result;
     }
     public override string Name => CommandNames.AddAdminExecuteCommand;
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
         var message = "";
-        var user = await _userService.GetOrCreate(update);
-        if (!user.IsAdmin)
+        var user2 = await _userService.GetOrCreate(update);
+        if (!appUser.IsAdmin)
         {
-            await _botClient.SendTextMessageAsync(user.ChatId, "Error: You are not an admin!");
+            await _botClient.SendTextMessageAsync(appUser.ChatId, "Error: You are not an admin!");
             return;
         }
         var username = update.Message.Text.Trim() == null ? string.Empty : update.Message.Text.Trim();
-        var appUser = await _userService.GetUserByUsername(username);
-        if (appUser != null)
+        var user = await _userService.GetUserByUsername(username);
+        if (user != null)
         {
-            appUser = await _userService.AddAdmin(appUser);
+            user = await _userService.AddAdmin(user);
             message = $"Добавлен админ {username}";
         }
         else

@@ -23,6 +23,9 @@ public class CommandNames
     public const string FindByTrackingCodeCommand = "find-by-trackingcode";
     public const string AddReceivedTrackingCodeCommand = "add-received-trackingcode";
     public const string AddReceivedFileProcessCommand = "add-received-file";
+    public const string AddAddressNameCommand = "add-address-name";
+    public const string AddAddressNumberCommand = "add-address-number";
+    public const string GetGenerateAddressCommand = "get-generate-address";
     
     
 }

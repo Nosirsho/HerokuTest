@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -19,12 +20,11 @@ public class AdminCommand : BaseCommand
 
     public override string Name => CommandNames.AdminCommand;
 
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
-        var user = await _userService.GetOrCreate(update);
-        if (!user.IsAdmin)
+        if (!appUser.IsAdmin)
         {
-            await _botClient.SendTextMessageAsync(user.ChatId, "Error: You are not an admin!");
+            await _botClient.SendTextMessageAsync(appUser.ChatId, "Error: You are not an admin!");
             return;
         }
 
@@ -38,7 +38,7 @@ public class AdminCommand : BaseCommand
             ResizeKeyboard = true
         };
 
-        await _botClient.SendTextMessageAsync(user.ChatId, "Выберите интересующий вас пункт меню!",
+        await _botClient.SendTextMessageAsync(appUser.ChatId, "Выберите интересующий вас пункт меню!",
             replyMarkup:inlineKeyboard);
     }
 }

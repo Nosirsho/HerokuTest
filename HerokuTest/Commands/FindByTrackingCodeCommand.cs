@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -16,7 +17,7 @@ public class FindByTrackingCodeCommand: BaseCommand
         _botClient = telegramBot.GetBot().Result;
     }
     public override string Name => CommandNames.FindByTrackingCodeCommand;
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
         var message = "Введите трек-код!";
         string code = update.Message.Text.Trim() == null ? string.Empty : update.Message.Text.Trim();
@@ -40,7 +41,7 @@ public class FindByTrackingCodeCommand: BaseCommand
             return;
         }
 
-        message = $"Товар с трек-кодом {code} будет доставлен {tracking.ReceivedDate.ToShortDateString()} -го числа!";
+        message = $"Товар с трек-кодом {code} получен!";
         await _botClient.SendTextMessageAsync(update.Message.Chat.Id, message,null, ParseMode.Markdown);
     }
 }

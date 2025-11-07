@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -13,7 +14,7 @@ public class GetTrackingCodeCommand: BaseCommand
         _botClient = telegramBot.GetBot().Result;
     }
     public override string Name => CommandNames.GetTrackingCodeCommand;
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
         const string message = "Введите трек-код!";
         await _botClient.SendTextMessageAsync(update.Message.Chat.Id, message,null, ParseMode.Markdown);

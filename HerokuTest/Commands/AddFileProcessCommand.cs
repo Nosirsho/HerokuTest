@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using HerokuTest.Entities;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using HerokuTest.Services;
@@ -19,7 +20,7 @@ namespace HerokuTest.Commands
 
         public override string Name => CommandNames.AddFileProcessCommand;
         
-        public override async Task ExecuteAsync(Update update)
+        public override async Task ExecuteAsync(Update update, AppUser appUser)
         {
             if (update.Type == UpdateType.Message)
             {

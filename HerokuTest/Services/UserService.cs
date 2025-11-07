@@ -57,6 +57,22 @@ public class UserService: IUserService
         return user;
     }
 
+    public async Task<AppUser> SetUserGenAddressName(AppUser appUser, string name)
+    {
+        var user = await _context.Users.Where(x => x.ChatId == appUser.ChatId).FirstOrDefaultAsync();
+        user.GenAddressName = name;
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
+    public async Task<AppUser> SetUserGenAddressNumber(AppUser appUser, string number)
+    {
+        var user = await _context.Users.Where(x => x.ChatId == appUser.ChatId).FirstOrDefaultAsync();
+        user.GenAddressNumber = number;
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
     public async Task<AppUser> AddAdmin(AppUser appUser)
     {
         var user = await _context.Users.Where(x => x.ChatId == appUser.ChatId).FirstOrDefaultAsync();

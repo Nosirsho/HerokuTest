@@ -1,3 +1,4 @@
+using HerokuTest.Entities;
 using HerokuTest.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -19,13 +20,14 @@ public class StartCommand : BaseCommand
 
     public override string Name => CommandNames.StartCommand;
 
-    public override async Task ExecuteAsync(Update update)
+    public override async Task ExecuteAsync(Update update, AppUser appUser)
     {
         var user = await _userService.GetOrCreate(update);
         var inlineKeyboard = new ReplyKeyboardMarkup(new[]
         {
             new KeyboardButton[] { new KeyboardButton("Расценки и сроки доставки"), new KeyboardButton("Запрещенные товары") },
             new KeyboardButton[] { new KeyboardButton("Программы для установки"), new KeyboardButton("Контакты") },
+            new KeyboardButton[] { new KeyboardButton("Получить адресс") },
             new KeyboardButton[] { new KeyboardButton("Поиск по трек-коду") }
         })
         {
