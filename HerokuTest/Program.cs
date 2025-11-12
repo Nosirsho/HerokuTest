@@ -10,8 +10,25 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var config = builder.Configuration;
 
-services.AddDbContext<DataContext>(options => options.UseSqlite(config.GetConnectionString("DefaultConnection")));
+//services.AddDbContext<DataContext>(options => options.UseSqlite(config.GetConnectionString("DefaultConnection")));
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
+string connectionString;
+
+if (!string.IsNullOrEmpty(databaseUrl))
+{
+    // Преобразуем URL в стандартный формат
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+
+    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};" +
+                       $"Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+} else {
+    // Локальное подключение (для разработки)
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+}
+
+services.AddDbContext<DataContext>(o => o.UseNpgsql(connectionString));
 services.AddSingleton<TelegramBot>();
 services.AddScoped<ICommandExecutor, CommandExecutor>();
 services.AddScoped<IUserService, UserService>();
@@ -70,7 +87,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.MapGet("/", () => "Hello World_0003!");
+app.MapGet("/", () => "Попытка_0004!");
 app.MapPost("/api/message/update", async (HttpRequest request, ICommandExecutor commandExecutor) =>
 {
     using var reader = new StreamReader(request.Body);

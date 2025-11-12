@@ -11,6 +11,6 @@ public class AppUser: BaseEntity
     public string? PhoneNumber { get; set; } = string.Empty;
     public bool IsAdmin { get; set; } = false;
     public string LastCommand { get; set; } = string.Empty;
-    public string GenAddressName { get; set; }
-    public string GenAddressNumber { get; set; }
+    public string GenAddressName { get; set; } = string.Empty;
+    public string GenAddressNumber { get; set; } = string.Empty;
 }
