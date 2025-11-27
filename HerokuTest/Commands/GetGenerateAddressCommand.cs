@@ -37,7 +37,7 @@ public class GetGenerateAddressCommand : BaseCommand
         {
             result = "ArzonCargo-tj\n19972639805\n" +
                      "浙江省义乌市福田街道 湖塘通福5区 21栋3单元123仓库(A192KZ)\n" +
-                     $"[{addressName} | {addressNumber}]";
+                     $"({addressName} | {addressNumber})";
         }
         await _botClient.SendTextMessageAsync(appUser.ChatId, result,null,
             parseMode: ParseMode.Html);

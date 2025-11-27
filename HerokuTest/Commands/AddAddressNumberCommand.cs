@@ -33,7 +33,7 @@ public class AddAddressNumberCommand : BaseCommand
         await _userService.SetUserGenAddressNumber(appUser, last9);
         var result = "ArzonCargo-tj\n19972639805\n" +
                      "浙江省义乌市福田街道 湖塘通福5区 21栋3单元123仓库(A192KZ)\n" +
-                     $"[{appUser.GenAddressName}|{appUser.GenAddressNumber}]";
+                     $"({appUser.GenAddressName}|{appUser.GenAddressNumber})";
         await _botClient.SendTextMessageAsync(appUser.ChatId, result);
     }
 }
